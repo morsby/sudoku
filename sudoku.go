@@ -1,5 +1,5 @@
-// Package sudoku allows for generation and
-// solving of sudoku games through a back-tracking algorithm.
+// Package sudoku allows for solving of sudoku
+// games through a back-tracking algorithm.
 //
 // Currently only supports a 9x9 grid.
 package sudoku
@@ -99,6 +99,10 @@ func (b Board) Set(x, y, value int, lock bool) (ok bool, err error) {
 func (b Board) Unset(x, y int) (ok bool, err error) {
 	if x > len(b) || y > len(b) || x < 0 || y < 0 {
 		return false, fmt.Errorf("invalid coordinate: %d,%d", x, y)
+	}
+
+	if b[y][x].locked {
+		return false, fmt.Errorf("cell at %2d,%2d is locked", x, y)
 	}
 
 	b[y][x] = square{}
