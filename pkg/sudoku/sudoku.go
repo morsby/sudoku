@@ -45,7 +45,11 @@ func (b Board) Sprint(pad int) string {
 	for x := 0; x < len(b); x++ {
 		board.WriteString(paddingString + "|")
 		for y := 0; y < len(b[0]); y++ {
-			board.WriteString(strconv.Itoa(b[y][x].value))
+			if b[y][x].value > 0 {
+				board.WriteString(strconv.Itoa(b[y][x].value))
+			} else {
+				board.WriteRune(' ')
+			}
 			// spacing between cells
 			if y%3 == 2 {
 				board.WriteRune('|')

@@ -11,7 +11,7 @@ import (
 
 func main() {
 	example := flag.Bool("example", false, "to demo an example")
-	speed := flag.Int("speed", 200, "ns between moves")
+	speed := flag.Int("speed", 0, "ms between moves")
 	flag.Parse()
 	input := []string{}
 	if *example == true {

@@ -28,7 +28,7 @@ func Animate(w io.Writer, speed int, b Board, moves []Move) {
 	bar := progressbar.Default(int64(len(moves)))
 
 	for _, move := range moves {
-		time.Sleep(time.Duration(speed) * time.Nanosecond)
+		time.Sleep(time.Duration(speed) * time.Millisecond)
 		screen.MoveTopLeft()
 		if move.value == 0 {
 			b.unsetSquare(move.cell)
