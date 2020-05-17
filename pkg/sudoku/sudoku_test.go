@@ -17,7 +17,7 @@ func TestNew(t *testing.T) {
 
 func TestSprint(t *testing.T) {
 	board := New()
-	print := board.Sprint()
+	print := board.Sprint(0)
 	expected := strings.TrimSpace(`
 |-----|-----|-----|
 |0 0 0|0 0 0|0 0 0|
@@ -55,23 +55,23 @@ func TestSet(t *testing.T) {
 
 }
 
-func TestIsSafe(t *testing.T) {
+func TestIsValid(t *testing.T) {
 	board := New()
 
-	if board.isSafe(0, 0, 1) != true {
-		t.Error("Expected 1 to be safe to put; was not.")
+	if board.isValid(0, 0, 1) != true {
+		t.Error("Expected 1 to be valid to put; was not.")
 	}
 
 	board.Set(0, 0, 1, true)
-	if board.isSafe(0, 1, 1) != false {
-		t.Error("Did not expect 1 to be safe to put; was.")
+	if board.isValid(0, 1, 1) != false {
+		t.Error("Did not expect 1 to be valid to put; was.")
 	}
-	if board.isSafe(0, 1, 2) != true {
-		t.Error("Expected 2 to be safe to put; was not.")
+	if board.isValid(0, 1, 2) != true {
+		t.Error("Expected 2 to be valid to put; was not.")
 	}
 
-	if board.isSafe(1, 1, 1) != false {
-		t.Error("Expected 1 to be unsafe; was not.")
+	if board.isValid(1, 1, 1) != false {
+		t.Error("Expected 1 to be unvalid; was not.")
 	}
 }
 
@@ -129,7 +129,7 @@ func TestParse(t *testing.T) {
 |-----|-----|-----|
 `)
 
-	b := board.Sprint()
+	b := board.Sprint(0)
 	if expected != b {
 		t.Error("Board is not right.")
 	}
@@ -149,8 +149,9 @@ func TestSolve(t *testing.T) {
 		"060000054",
 	}
 	board.Parse(seed)
-	board.Solve()
-	solved := board.Sprint()
+	beforeSolving := board.Sprint(0)
+	origin, _ := board.Solve()
+	solved := board.Sprint(0)
 	expected := strings.TrimSpace(`
 |-----|-----|-----|
 |3 1 2|5 8 6|4 7 9|
@@ -165,6 +166,10 @@ func TestSolve(t *testing.T) {
 |1 9 5|2 4 3|6 8 7|
 |8 6 3|7 9 1|2 5 4|
 |-----|-----|-----|`)
+
+	if beforeSolving != origin.Sprint(0) {
+		t.Error("Expected Solve origin to be unmodified by solving.")
+	}
 
 	if expected != solved {
 		t.Errorf("Solution wrong; got:\n%v\n \t\t\t\twanted: \n%v", solved, expected)
