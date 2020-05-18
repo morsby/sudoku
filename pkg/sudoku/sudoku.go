@@ -9,6 +9,8 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
+
+	"github.com/fatih/color"
 )
 
 // Cell holds information on each cell;
@@ -39,6 +41,7 @@ func (b Board) Sprint(pad int) string {
 		paddingString = paddingString + " "
 	}
 
+	blue := color.New(color.FgBlue, color.Bold).SprintFunc()
 	var board strings.Builder
 	// header
 	board.WriteString(paddingString + "|-----|-----|-----|\n")
@@ -46,7 +49,11 @@ func (b Board) Sprint(pad int) string {
 		board.WriteString(paddingString + "|")
 		for y := 0; y < len(b[0]); y++ {
 			if b[y][x].value > 0 {
-				board.WriteString(strconv.Itoa(b[y][x].value))
+				val := strconv.Itoa(b[y][x].value)
+				if b[y][x].locked {
+					val = blue(val)
+				}
+				board.WriteString(val)
 			} else {
 				board.WriteRune(' ')
 			}

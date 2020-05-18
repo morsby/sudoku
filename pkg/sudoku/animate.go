@@ -22,8 +22,12 @@ func Animate(w io.Writer, speed int, b Board, moves []Move) {
 	for i := 0; i < padHeight; i++ {
 		paddingString = paddingString + "\n"
 	}
+	oddHeightPad := ""
+	if height%2 == 1 {
+		oddHeightPad = "\n"
+	}
 
-	w.Write([]byte(paddingString + b.Sprint(padWidth) + paddingString + "\n"))
+	w.Write([]byte(paddingString + b.Sprint(padWidth) + paddingString + oddHeightPad + "\n"))
 
 	bar := progressbar.Default(int64(len(moves)))
 
@@ -35,7 +39,7 @@ func Animate(w io.Writer, speed int, b Board, moves []Move) {
 		} else {
 			b.setSquare(move.cell, move.value)
 		}
-		w.Write([]byte(paddingString + b.Sprint(padWidth) + paddingString))
+		w.Write([]byte(paddingString + b.Sprint(padWidth) + paddingString + oddHeightPad))
 		bar.Add(1)
 	}
 }
