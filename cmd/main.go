@@ -10,11 +10,23 @@ import (
 )
 
 func main() {
-	example := flag.Bool("example", false, "to demo an example")
+	example := flag.String("example", "", "to demo an example [easy or expert]")
 	speed := flag.Int("speed", 0, "ms between moves")
 	flag.Parse()
 	input := []string{}
-	if *example == true {
+	if *example == "easy" {
+		input = []string{
+			"020500000",
+			"649831752",
+			"500600000",
+			"003084690",
+			"018390047",
+			"006100208",
+			"080000924",
+			"074008105",
+			"060000000",
+		}
+	} else if *example == "expert" {
 		input = []string{
 			"000080070",
 			"058030100",
